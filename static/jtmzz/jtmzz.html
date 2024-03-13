@@ -1,0 +1,218 @@
+<html>
+
+<head></head>
+
+<body>
+    <a href="../../index.html">返回</a>
+    <div>
+        <h1>规则</h1>
+        <p>
+            用一个袋子装了红绿蓝各8个珠子。玩家把手伸进口袋摸出12个珠子，数出不同颜色珠子个数，就能够获得相应的奖金。
+        </p>
+    </div>
+    <div id="id1" style="height:100px;border:1px dashed red"></div>
+    <div id="id2" style="height:100px;border:1px dashed blue"></div>
+    <div id="id5" style="height:50px;border:1px dashed rgb(19, 19, 11)">
+        账号余额：
+    </div>
+    <button id="id3" onclick="click1()">我抽一个球</button>
+    <button id="id4" onclick="click3()">我抽12个球</button>
+    <!-- <button id="id4" ontouchstart="click3()">长按无限抽12个球</button> -->
+    <button onclick="click2()">重置一下</button>
+    <button onclick="click4()"> 充值 </button>
+    <img src="./zz.jpg" style="width: 500px; height: 250px;">
+</body>
+
+<script>
+    let o = 0;
+    let u = [];
+
+    let je = 0;
+    document.getElementById("id5").innerHTML = "账户余额：<span style='color:red'>" + je + "</span>元";
+
+    function fmtNum(num) {
+        // 保留到小数点后两位
+        if (!num || num == '' || isNaN(num)) return ''
+        if (parseFloat(num) === parseInt(num)) {
+            // num为整数,123.0的情况也在此处理
+            return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ',')) + '.00'
+        } else {
+            // num为小数
+            const decimal = Number(num - parseInt(num)).toFixed(2).substr(1)
+            const intNum = (+parseInt(num) || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
+            return intNum + decimal
+        }
+    }
+    function click4(params) {
+        var code = prompt("请输入充值金额");
+        je = je + Number(code);
+        document.getElementById("id5").innerHTML = "账户余额：<span style='color:red'>" + je + "</span>元";
+    }
+
+    function bubbleSort(arr) {
+        var len = arr.length;
+        for (let i = 0; i < arr.length - 1; i++) {
+            for (let j = 0; j < arr.length - i - 1; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    let temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+
+                }
+            }
+        }
+        return arr;
+    }
+    function click3() {
+        click2();
+        for (let i = 1; i < 13; i++) {
+            click1();
+        }
+    }
+
+    function click2() {
+        o = 0;
+        u = [];
+        document.getElementById("id1").innerHTML = "";
+        document.getElementById("id2").innerHTML = "";
+        document.getElementById("id3").disabled = false;
+        document.getElementById("id4").disabled = false;
+    }
+
+    function mathRandom() {
+        y = Math.ceil(Math.random() * 24); // 球
+        if (u.indexOf(y) != -1) {
+            mathRandom();
+        } else {
+            u[o] = y;
+            o++;
+            switch (y) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    s = "蓝色";
+                    break;
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                    s = "绿色";
+                    break;
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                    s = "红色";
+                    break;
+                default:
+                    break;
+            }
+            document.getElementById("id1").innerHTML = document.getElementById("id1").innerHTML + "," + s;
+        }
+    }
+    let y = 0;
+    function click1() {
+        if (u.length == 12) {
+            document.getElementById("id3").disabled = true;
+            document.getElementById("id4").disabled = true;
+            return;
+        }
+        let s = "";
+
+        mathRandom();
+
+        if (u.length == 12) {
+            let a = 0;
+            let b = 0;
+            let c = 0;
+            let num = 0;
+            for (let i = 0; i < u.length; i++) {
+                const element = u[i];
+                if (element < 9) {
+                    a++;
+                }
+                if (element > 8 && element < 17) {
+                    b++;
+                }
+                if (element > 16 && element < 25) {
+                    c++;
+                }
+            }
+            let arr = [a, b, c];
+            const array = bubbleSort(arr);
+            num = array[0] * 100 + array[1] * 10 + array[2];
+            // if (a > b && b > c) {
+            //     num = a * 100 + b * 10 + c;
+            // } else if (a > c && c > b) {
+            //     num = a * 100 + c * 10 + b;
+            // } else if (b > a && a > c) {
+            //     num = a * 100 + b * 10 + c;
+            // } else if (b > c && c > a) {
+            //     num = b * 100 + c * 10 + a;
+            // } else if (c > a && a > b) {
+            //     num = c * 100 + a * 10 + b;
+            // } else {
+            //     num = c * 100 + b * 10 + a;
+            // }
+            console.log(num, je);
+            let jesss = 0;
+            switch (num) {
+                case 840:
+                    jesss = 100;
+                    break;
+                case 831:
+                    jesss = 10;
+                    break;
+                case 822:
+                    jesss = 10;
+                    break;
+                case 750:
+                    jesss = 20;
+                    break;
+                case 741:
+                    jesss = 2;
+                    break;
+                case 732:
+                    jesss = 2;
+                case 660:
+                    jesss = 20;
+                case 651:
+                    jesss = 1;
+                case 642:
+                    jesss = 1;
+                case 633:
+                    jesss = 1;
+                case 552:
+                    jesss = 1;
+                case 444:
+                    jesss = 1;
+                    break;
+                case 543:
+                    jesss = -10;
+                    break;
+                default:
+                    break;
+            }
+            je = je + jesss;
+            console.log("===========", num, jesss);
+            document.getElementById("id5").innerHTML = "账户余额：<span style='color:red'>" + je + "</span>元";
+
+            document.getElementById("id2").innerHTML = "蓝色：" + a + "绿色：" + b + "红色：" + c + "<br/> 情况：" + arr;
+        }
+    }
+</script>
+
+</html>
